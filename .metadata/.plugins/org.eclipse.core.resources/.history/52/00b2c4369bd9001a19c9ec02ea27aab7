@@ -1,0 +1,15 @@
+# SIGMA TEST
+sigmatest.app												= Sigma Test 2020
+
+# Mensajes de Validaciones - Genéricos
+sigmatest.msg.validate.camposIncorrectos					= Campos requeridos incorrectos:
+sigmatest.msg.validate.digitarDataRepetida					= Debe digitar la información requerida.
+sigmatest.msg.validate.erroresEncontrados					= Se han encontrado problemas con la información suministrada.
+sigmatest.msg.validate.valor.incorrecto						= Valor Incorrecto.
+sigmatest.msg.validate.correoInvalido						= La estructura del Correo es Inválida.
+ 
+# Módulo Ubicaciones
+lbl_mtto_contact_departamento_solo							= Departamento: 
+lbl_mtto_contact_nombre										= Nombre: 
+lbl_mtto_contact_ciudad										= Ciudad: 
+lbl_mtto_contact_email										= Correo:

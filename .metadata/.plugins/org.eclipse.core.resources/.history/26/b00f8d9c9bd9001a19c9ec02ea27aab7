@@ -1,0 +1,64 @@
+package com.sigmatest.sigma.controller;
+
+import java.io.IOException;
+import java.util.List;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.sigmatest.sigma.JSONReader;
+import com.sigmatest.sigma.exception.ModelNotFoundException;
+import com.sigmatest.sigma.model.ContactsTB;
+import com.sigmatest.sigma.service.IContactsService;
+import com.sigmatest.sigma.util.Util;
+
+@RestController
+@RequestMapping("/sigma-test/geo")
+public class ControladorRestContacts {
+
+	final String URL_SIGMA_GEO = "https://sigma-studios.s3-us-west-2.amazonaws.com/test/colombia.json";
+
+	@Autowired
+	IContactsService contactsService;
+
+	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<String> consultarTodos() {
+		try {
+			JSONObject geoJSON = JSONReader.readJsonFromUrl(URL_SIGMA_GEO);
+
+			return new ResponseEntity<String>(geoJSON.toString(), HttpStatus.OK);
+		} catch (JSONException | IOException e) {
+			throw new ModelNotFoundException(e.getMessage());
+		}
+	}
+
+	@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping("/createContact")
+	public ResponseEntity<ContactsTB> crear(@RequestBody ContactsTB contact) {
+		List<String> errores = Util.validaDatos(contact);
+		ContactsTB newContact = new ContactsTB();
+		if (errores.isEmpty()) {
+			newContact = contactsService.crear(contact);
+		} else {
+			StringBuilder mensajeErrores = new StringBuilder();
+
+			for (String error : errores) {
+				mensajeErrores.append(error);
+			}
+
+			throw new ModelNotFoundException(mensajeErrores.toString());
+		}
+
+		return new ResponseEntity<ContactsTB>(newContact, HttpStatus.OK);
+	}
+
+}

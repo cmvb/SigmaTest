@@ -1,0 +1,7 @@
+INDEX VERSION 1.4+C:\Users\veracm\Documents\ProjectsCB\SigmaPrueba\.metadata\.plugins\org.eclipse.wst.jsdt.core\indexes
+3938175429.index
+767819328.index
+2782852018.index
+2234351612.index
+3761801923.index
+2511131192.index

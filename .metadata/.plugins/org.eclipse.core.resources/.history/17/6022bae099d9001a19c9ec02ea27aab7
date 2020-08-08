@@ -1,0 +1,59 @@
+package com.sigmatest.sigma.util;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import org.apache.commons.lang3.StringUtils;
+
+import com.sigmatest.sigma.model.ContactsTB;
+
+public abstract class Util {
+
+	public static final String CARACTERES = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+	public static final Pattern EMAIL_PATTERN = Pattern
+			.compile("^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
+	public static final String REGISTRO_CREADO = "El Registro se creo Satisfactoriamente.";
+	public static final String MISMA_DESCRIPCION = "Ya existe un registro con la misma descripcion.";
+	public static final String MISMO_CODIGO = "Ya existe un registro con el mismo codigo.";
+	public static final String INFORMACION = "Informacion";
+	public static final String ADVERTENCIA = "Advertencia";
+	public static final String ERROR = "Error";
+	public static final String CAMPO_REQUERIDO = "Campo Requerido";
+	public static final String CAMPO_NOREQUERIDO = "Campo no es Requerido";
+	public static final String VALOR_INCORRECTO = PropertiesUtil.getProperty("sigmatest.msg.validate.valor.incorrecto");
+	public static final String VALOR_VACIO = "Esta Vacio";
+	public static final String VALOR_EXISTENTE = "Valor Existente";
+	public static final String COMODIN = "%";
+
+	public static boolean esCorreoValido(String email) {
+		Matcher mather = EMAIL_PATTERN.matcher(email.toLowerCase());
+		return mather.find();
+	}
+
+	public static boolean validarCaracteres(String cadenaValidar) {
+		Pattern mask = Pattern.compile(ConstantesValidaciones.EXPRESION_REGULAR_DE_TEXTO_INGRESADO);
+		return mask.matcher(cadenaValidar).matches();
+	}
+
+	public static List<String> validaDatos(ContactsTB contact) {
+		List<String> errores = new ArrayList<>();
+
+		if (StringUtils.isBlank(contact.getName())) {
+			errores.add(PropertiesUtil.getProperty("lbl_mtto_contact_nombre") + VALOR_INCORRECTO);
+		}
+		if (StringUtils.isBlank(contact.getEmail()) && Util.esCorreoValido(contact.getEmail())) {
+			errores.add(PropertiesUtil.getProperty("lbl_mtto_contact_email") + VALOR_INCORRECTO);
+		}
+		if (StringUtils.isBlank(contact.getState())) {
+			errores.add(PropertiesUtil.getProperty("lbl_mtto_contact_departamento_solo") + VALOR_INCORRECTO);
+		}
+		if (StringUtils.isBlank(contact.getCity())) {
+			errores.add(PropertiesUtil.getProperty("lbl_mtto_contact_ciudad") + VALOR_INCORRECTO);
+		}
+
+		return errores;
+	}
+
+}

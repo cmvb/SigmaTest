@@ -1,0 +1,57 @@
+package com.sigmatest.sigma.util;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import org.apache.commons.lang3.StringUtils;
+
+import com.sigmatest.sigma.model.ContactsTB;
+
+public abstract class Util {
+
+	public static final Pattern EMAIL_PATTERN = Pattern
+			.compile("^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
+	public static final String VALOR_INCORRECTO = PropertiesUtil.getProperty("sigmatest.msg.validate.valor.incorrecto");
+
+	public static boolean esCorreoValido(String email) {
+		Matcher mather = EMAIL_PATTERN.matcher(email.toLowerCase());
+		return mather.find();
+	}
+
+	public static boolean validarCaracteres(String cadenaValidar) {
+		Pattern mask = Pattern.compile(ConstantesValidaciones.EXPRESION_REGULAR_DE_TEXTO_INGRESADO);
+		return mask.matcher(cadenaValidar).matches();
+	}
+
+	public static boolean validarCantidadCaracteres(String cadenaValidar, int cantidadChar) {
+		boolean result = false;
+		if (!StringUtils.isBlank(cadenaValidar)) {
+			result = cadenaValidar.length() == cantidadChar;
+		}
+		return result;
+	}
+
+	public static List<String> validaDatos(ContactsTB contact) {
+		List<String> errores = new ArrayList<>();
+
+		if (StringUtils.isBlank(contact.getName())) {
+			errores.add(PropertiesUtil.getProperty("lbl_mtto_contact_nombre") + VALOR_INCORRECTO);
+		} else {
+
+		}
+		if (StringUtils.isBlank(contact.getEmail()) || !Util.esCorreoValido(contact.getEmail())) {
+			errores.add(PropertiesUtil.getProperty("lbl_mtto_contact_email") + VALOR_INCORRECTO);
+		}
+		if (StringUtils.isBlank(contact.getState())) {
+			errores.add(PropertiesUtil.getProperty("lbl_mtto_contact_departamento_solo") + VALOR_INCORRECTO);
+		}
+		if (StringUtils.isBlank(contact.getCity())) {
+			errores.add(PropertiesUtil.getProperty("lbl_mtto_contact_ciudad") + VALOR_INCORRECTO);
+		}
+
+		return errores;
+	}
+
+}
