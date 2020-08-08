@@ -8,6 +8,8 @@ En la carpeta SigmaBackend se encuentra el back de la prueba. Desarrollado en Sp
 # Front
 Opción 1.
 -(Se requiere AngularCli y NodeJS) Ir a la raiz del proyecto y ejecutar desde consola el siguiente comando: "npm start"
+- El aplicativo queda desplegado por defecto en el puerto 4200
+-> URL Front: http://localhost:4200/#/dashboard
 
 Opción 2.
 - Generar el compilado de distribución o productiva con el siguiente comando: "ng build --prod"
